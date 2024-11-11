@@ -34,102 +34,65 @@ function showCreateModal() {
 	const modal = document.querySelector('.createTask-modal')
 	modal.style.display = 'flex'
 }
+
 function hideCreateModal() {
 	const modal = document.querySelector('.createTask-modal')
 	modal.style.display = 'none'
 }
 
-// Функция для создания новой задачи
+let taskRowIndex = 0
+
 function createNewTask(name, description) {
-	// Находим контейнер, где будут размещены задачи
-	const container = document.querySelector('.container .row')
+	// Создание элементов задачи
+	const taskCol = document.createElement('div')
+	taskCol.classList.add('col-lg-4', 'col-md-6', 'col-xs-12')
 
-	// Создаём новый div для задачи
-	const newTaskDiv = document.createElement('div')
-	newTaskDiv.className = 'col-lg-4 col-md-6 col-xs-12'
+	const taskContent = document.createElement('div')
+	taskContent.classList.add('content')
 
-	// Создаём div для контента задачи
-	const newContentDiv = document.createElement('div')
-	newContentDiv.className = 'content'
+	const delBtn = document.createElement('button')
+	delBtn.classList.add('del-btn', 'text-center')
+	delBtn.textContent = '+' // Текст на кнопке
+	delBtn.onclick = function () {
+		delTask(taskCol) // Удаление задачи
+	}
 
-	// Создаём кнопку для удаления задачи
-	const delButton = document.createElement('button')
-	delButton.className = 'del-btn text-center'
-	delButton.textContent = '+'
-	delButton.onclick = () => alert('Удалить задачу') // Для примера
-	newContentDiv.appendChild(delButton)
+	const taskText = document.createElement('div')
+	taskText.classList.add('text')
 
-	// Создаём div для текста задачи
-	const textDiv = document.createElement('div')
-	textDiv.className = 'text'
-
-	// Создаём название задачи
 	const taskName = document.createElement('p')
-	taskName.className = 'name-task'
+	taskName.classList.add('name-task')
 	taskName.textContent = name
 
-	// Создаём описание задачи
 	const taskDescription = document.createElement('p')
-	taskDescription.className = 'description-task'
+	taskDescription.classList.add('description-task')
 	taskDescription.textContent = description
 
-	// Добавляем название и описание в блок с текстом
-	textDiv.appendChild(taskName)
-	textDiv.appendChild(taskDescription)
-	newContentDiv.appendChild(textDiv)
-
-	// Создаём div для статуса (если нужно)
-	const statusDiv = document.createElement('div')
-	statusDiv.className = 'status'
-	newContentDiv.appendChild(statusDiv)
-
-	// Добавляем весь контент задачи в новый div
-	newTaskDiv.appendChild(newContentDiv)
-
-	// Находим кнопку "Добавить задание"
-	const addTaskButton = container.querySelector('.col-lg-4 .new')
-
-	// Проверяем, найден ли addTaskButton
-	if (!addTaskButton) {
-		console.error('Кнопка "Добавить задание" не найдена.')
-		return
+	const taskStatus = document.createElement('div')
+	taskStatus.classList.add('status')
+	taskStatus.onclick = function () {
+		toggleStatusColor(this) // Передаем сам элемент, на который был клик
 	}
 
-	// Вставляем задачу перед кнопкой "Добавить задание"
-	container.insertBefore(newTaskDiv, addTaskButton.parentElement)
+	// Структура задачи
+	taskText.appendChild(taskName)
+	taskText.appendChild(taskDescription)
+	taskContent.appendChild(delBtn)
+	taskContent.appendChild(taskText)
+	taskContent.appendChild(taskStatus)
+	taskCol.appendChild(taskContent)
+
+	// Получение контейнера с задачами и кнопки "Добавить задание"
+	const todoRow = document.querySelector('.todo-row')
+	const addTaskButton = document.querySelector('.addTaskButton')
+
+	// Вставка новой задачи перед кнопкой "Добавить задание"
+	todoRow.insertBefore(taskCol, addTaskButton)
 }
 
-// Функция для удаления всех элементов с заданным id
-function delElementsWithId(id) {
-	// Ищем все элементы с атрибутом id, равным переданному значению
-	var elements = document.querySelectorAll('[id="' + id + '"]')
-
-	// Перебираем найденные элементы
-	elements.forEach(function (element) {
-		// Удаляем текущий элемент из DOM
-		element.remove()
-	})
-}
-
-// Функция для управления удалением элементов при клике на кнопки с классом 'del'
-function delTask() {
-	// Получаем все элементы с классом 'del'
-	var deleteButtons = document.getElementsByClassName('del')
-
-	// Перебираем все найденные кнопки
-	for (var i = 0; i < deleteButtons.length; i++) {
-		// Добавляем обработчик события клика для текущей кнопки
-		deleteButtons[i].addEventListener('click', function (event) {
-			// Извлекаем id нажатой кнопки
-			var buttonId = event.target.id
-
-			// Выводим id нажатой кнопки в консоль (для отладки)
-			console.log('Нажата кнопка с id:', buttonId)
-
-			// Вызываем функцию для удаления элементов с заданным id
-			delElementsWithId(buttonId)
-		})
-	}
+// Функция для удаления задачи
+function delTask(taskElement) {
+	taskElement.remove()
 }
 
 // Функция для обновления счетчика символов
@@ -152,3 +115,24 @@ nameInput.addEventListener('input', function () {
 descriptionInput.addEventListener('input', function () {
 	updateCharacterCount(descriptionInput, descriptionCounter, 60)
 })
+
+// Функция для изменения статуса
+function toggleStatusColor(statusElement) {
+	let currentColor = statusElement.style.backgroundColor
+
+	// Если currentColor пуст, это значит, что цвет еще не был установлен, присваиваем значение по умолчанию.
+	if (!currentColor) {
+		currentColor = 'var(--status-color1)'
+	}
+
+	if (currentColor === 'var(--status-color1)') {
+		console.log('статус1')
+		statusElement.style.backgroundColor = 'var(--status-color2)'
+	} else if (currentColor === 'var(--status-color2)') {
+		console.log('статус2')
+		statusElement.style.backgroundColor = 'var(--status-color3)'
+	} else if (currentColor === 'var(--status-color3)') {
+		console.log('статус3')
+		statusElement.style.backgroundColor = 'var(--status-color1)'
+	}
+}

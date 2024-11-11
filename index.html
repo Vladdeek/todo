@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="path/to/bootstrap.min.css.map" />
 		<link rel="stylesheet" href="css/style.css" />
 		<title>Home</title>
 		<link rel="icon" href="favicon.png" />
@@ -41,8 +42,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="container">
-			<div class="row">
+		<div class="container todo-con">
+			<div class="row todo-row">
 				<div class="col-lg-4 col-md-6 col-xs-12">
 					<div class="content">
 						<button class="del-btn text-center" onclick="delTask()">+</button>
@@ -53,13 +54,16 @@
 								пробелы.
 							</p>
 						</div>
-						<div class="status"></div>
+						<div class="status" onclick="toggleStatusColor()"></div>
 					</div>
 				</div>
 				<div class="addTaskButton col-lg-4 col-md-6 col-xs-12">
-					<button class="new" onclick="showCreateModal()">
-						Добавить задание
-					</button>
+					<div
+						class="new d-flex justify-content-center align-items-center"
+						onclick="showCreateModal()"
+					>
+						<img src="img/addbtn.ico" alt="" />
+					</div>
 				</div>
 			</div>
 		</div>
