@@ -8,7 +8,13 @@
 }
 body {
 	font-family: 'Roboto', sans-serif;
-	background-color: var(--bg-color);
+	/*background-color: var(--bg-color);*/
+	background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/496305124371173.6102869c06bc6.jpg');
+	height: 100vh;
+	width: 100%;
+	background-size: cover; /* Растягивает фон на весь экран */
+	background-position: center; /* Центрирует фон */
+	background-repeat: no-repeat; /* Не повторяет фон */
 }
 .todo-con {
 	margin-top: 1%;
@@ -42,15 +48,26 @@ p {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5); /* Прозрачный черный фон */
 	z-index: 999; /* Фон будет находиться под модальным окном */
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
 }
 
 /* Стиль для самого модального окна */
 .create-task {
-	background-color: white;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	background-image: linear-gradient(
+		115deg,
+		rgba(200, 200, 200, 0.2) 50%,
+		rgba(255, 255, 255, 0.2) 75%,
+		rgba(200, 200, 200, 0.2) 90%
+	);
+	border: 1px solid rgba(200, 200, 200, 0.25);
+	filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.09));
 	padding: 20px;
 	border-radius: 15px;
 	width: auto; /* Вы можете изменить размер в зависимости от ваших предпочтений */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 	display: flex;
 	flex-direction: column;
 	align-items: center; /* Центрирует элементы по горизонтали */
@@ -63,16 +80,22 @@ input {
 	height: auto;
 	width: 400px;
 	border-radius: 10px;
-	border: solid 1px black;
+	border: solid 1px rgba(200, 200, 200, 0.25);
 	padding: 0 10px;
 	top: 275px;
 	font-size: 25px;
 	margin: 10px 0;
 	font-weight: 100;
 	outline: 0;
+	background-color: rgba(255, 255, 255, 0.25);
+	color: white;
 }
 input:focus {
-	border: solid 1px black;
+	border: solid 1px white;
+	filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+input::placeholder {
+	color: white;
 }
 
 .save {
@@ -98,11 +121,9 @@ input:focus {
 }
 .content,
 .new {
-	background-color: var(--color);
 	border-radius: 15px;
-	border: none;
 	padding: 10px;
-	height: 125px;
+	height: 150px;
 	width: auto;
 	position: relative;
 	transition: 0.2s;
@@ -110,8 +131,20 @@ input:focus {
 }
 .new {
 	border: dashed 2px rgba(0, 0, 0, 0.2);
-	background-color: transparent;
+	background-image: transparent;
 	cursor: pointer;
+}
+.content {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	background-image: linear-gradient(
+		115deg,
+		rgba(200, 200, 200, 0.2) 50%,
+		rgba(255, 255, 255, 0.2) 75%,
+		rgba(200, 200, 200, 0.2) 90%
+	);
+	border: 1px solid rgba(200, 200, 200, 0.25);
+	filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.09));
 }
 .new:hover {
 	border: dashed 2px rgba(0, 0, 0, 0.5);
