@@ -8,8 +8,8 @@
 }
 body {
 	font-family: 'Roboto', sans-serif;
-	/*background-color: var(--bg-color);*/
-	background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/496305124371173.6102869c06bc6.jpg');
+	background-color: var(--bg-color);
+	/*background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/496305124371173.6102869c06bc6.jpg');*/
 	height: 100vh;
 	width: 100%;
 	background-size: cover; /* Растягивает фон на весь экран */
