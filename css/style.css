@@ -72,7 +72,7 @@ input {
 	outline: 0;
 }
 input:focus {
-	border: solid 1px white;
+	border: solid 1px black;
 }
 
 .save {

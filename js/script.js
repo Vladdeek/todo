@@ -25,6 +25,8 @@ function saveTask(event) {
 	// Очищаем поля ввода для следующей задачи
 	document.querySelector('.input-name-task').value = ''
 	document.querySelector('.input-description-task').value = ''
+	document.querySelector('.input-name-task')
+	document.querySelector('.input-description-task')
 }
 
 // Привязываем обработчик события submit к форме
@@ -103,8 +105,8 @@ function updateCharacterCount(inputElement, counterElement, maxLength) {
 
 // Получаем элементы
 const nameInput = document.querySelector('.input-name-task')
-const nameCounter = document.querySelector('.name-maxlengh')
 const descriptionInput = document.querySelector('.input-description-task')
+const nameCounter = document.querySelector('.name-maxlengh')
 const descriptionCounter = document.querySelector('.description-maxlengh')
 
 // Добавляем обработчики событий
