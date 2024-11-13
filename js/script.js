@@ -149,3 +149,40 @@ function toggleStatusColor(statusElement) {
 		statusElement.style.backgroundColor = 'var(--status-color1)'
 	}
 }
+
+let darkTheme = false
+
+function toggleTheme() {
+	const themeButton = document.querySelector('.theme-btn')
+	const button = document.querySelector('.new')
+	const iconImage = button
+	const root = document.documentElement
+
+	// Меняем изображение и цвета
+	if (darkTheme === false) {
+		console.log('Тема сменилась на ночную')
+		//iconImage.src = 'img/free-icon-sun-606795.png' // Путь к изображению для ночной темы
+		root.style.setProperty('--color1', '#FF5A9D')
+		root.style.setProperty('--color2', '#7B61FF')
+		root.style.setProperty('--color3', '#4ABCE3')
+		root.style.setProperty('--color4', '#FF8A63')
+		root.style.setProperty('--color-text', 'black')
+		root.style.setProperty('--bg-color', '#242124')
+		button.style.filter = 'invert(1)'
+		darkTheme = true
+
+		console.log(darkTheme)
+	} else if (darkTheme === true) {
+		console.log('Тема сменилась на дневную')
+		//iconImage.src = 'img/free-icon-half-moon-8098397.png' // Путь к изображению для дневной темы
+		root.style.setProperty('--color1', '#ffc1d6')
+		root.style.setProperty('--color2', '#c2b9ff')
+		root.style.setProperty('--color3', '#a8e3f5')
+		root.style.setProperty('--color4', '#ffd4bf')
+		root.style.setProperty('--color-text', 'white')
+		root.style.setProperty('--bg-color', '#f8f8ff')
+		button.style.filter = 'invert(0)'
+		darkTheme = false
+		console.log(darkTheme)
+	}
+}

@@ -150,6 +150,8 @@ input::placeholder {
 	border: dashed 2px rgba(0, 0, 0, 0.2);
 	background-image: transparent;
 	cursor: pointer;
+	filter: invert(0);
+	transition: 0.2s;
 }
 .new:hover {
 	border: dashed 2px rgba(0, 0, 0, 0.5);
