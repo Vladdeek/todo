@@ -2,9 +2,12 @@
 	--status-color1: #ff4c4c;
 	--status-color2: #ffd93d;
 	--status-color3: #4caf50;
-	--color-text: black;
-	--bg-color: white;
-	--color: gray;
+	--color1: #ff99c8; /* Ярко-розовый #8E44AD темная тема*/
+	--color2: #9a8cff; /* Фиолетовый #2980B9 темная тема*/
+	--color3: #6ecff6; /* Ярко-голубой #E67EFF темная тема*/
+	--color4: #ffa07a; /* Светло-коралловый #5DADE2 темная тема*/
+	--color-text: white;
+	--bg-color: #f8f8ff; /* #242124 темная тема*/
 }
 body {
 	font-family: 'Roboto', sans-serif;
@@ -37,6 +40,8 @@ p {
 	justify-content: center;
 	align-items: center;
 	z-index: 1000;
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
 /* Стиль для экрана, который будет фоном под задачей */
@@ -46,10 +51,10 @@ p {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* Прозрачный черный фон */
+	background-color: rgba(0, 0, 0, 0.05); /* Прозрачный черный фон */
 	z-index: 999; /* Фон будет находиться под модальным окном */
-	backdrop-filter: blur(5px);
-	-webkit-backdrop-filter: blur(5px);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
 }
 
 /* Стиль для самого модального окна */
@@ -119,6 +124,18 @@ input::placeholder {
 	transform: scale(0.975);
 	transition: 0.25s;
 }
+#color1 {
+	background-color: var(--color1);
+}
+#color2 {
+	background-color: var(--color2);
+}
+#color3 {
+	background-color: var(--color3);
+}
+#color4 {
+	background-color: var(--color4);
+}
 .content,
 .new {
 	border-radius: 15px;
@@ -133,18 +150,6 @@ input::placeholder {
 	border: dashed 2px rgba(0, 0, 0, 0.2);
 	background-image: transparent;
 	cursor: pointer;
-}
-.content {
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	background-image: linear-gradient(
-		115deg,
-		rgba(200, 200, 200, 0.2) 50%,
-		rgba(255, 255, 255, 0.2) 75%,
-		rgba(200, 200, 200, 0.2) 90%
-	);
-	border: 1px solid rgba(200, 200, 200, 0.25);
-	filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.09));
 }
 .new:hover {
 	border: dashed 2px rgba(0, 0, 0, 0.5);

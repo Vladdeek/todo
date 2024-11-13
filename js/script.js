@@ -35,14 +35,21 @@ document.querySelector('.create-task').addEventListener('submit', saveTask)
 function showCreateModal() {
 	const modal = document.querySelector('.createTask-modal')
 	modal.style.display = 'flex'
+	setTimeout(() => {
+		modal.style.opacity = '1' // Затем плавно показываем его
+	}, 0)
 }
 
 function hideCreateModal() {
 	const modal = document.querySelector('.createTask-modal')
-	modal.style.display = 'none'
+	modal.style.opacity = '0'
+	setTimeout(() => {
+		modal.style.display = 'none' // Убираем из потока после завершения анимации
+	}, 200)
 }
 
 let taskRowIndex = 0
+let colorIndex = 1
 
 function createNewTask(name, description) {
 	// Создание элементов задачи
@@ -51,6 +58,10 @@ function createNewTask(name, description) {
 
 	const taskContent = document.createElement('div')
 	taskContent.classList.add('content')
+	taskContent.id = `color${colorIndex}`
+
+	// Логика для цикличного увеличения colorIndex от 1 до 4
+	colorIndex = colorIndex < 4 ? colorIndex + 1 : 1
 
 	const delBtn = document.createElement('button')
 	delBtn.classList.add('del-btn', 'text-center')
