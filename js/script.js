@@ -1,5 +1,37 @@
 let divid = 2 // глобальная переменная divid = 1 для последующего создания <div class="task"> с новым уникальным id
 
+// Функция для сохранения задач в localStorage
+function saveToLocalStorage() {
+	const tasks = []
+	document.querySelectorAll('.todo-row .col-lg-4').forEach(taskElement => {
+		const name = taskElement.querySelector('.name-task')?.textContent || ''
+		const description =
+			taskElement.querySelector('.description-task')?.textContent || ''
+		const status =
+			taskElement.querySelector('.status')?.style.backgroundColor ||
+			'var(--status-color1)'
+		const id = taskElement.id || `task${divid++}`
+
+		if (name && description) {
+			tasks.push({ id, name, description, status })
+			taskElement.id = id // Присваиваем ID элементу
+		}
+	})
+	localStorage.setItem('tasks', JSON.stringify(tasks))
+}
+
+// Функция для загрузки задач из localStorage
+function loadFromLocalStorage() {
+	const tasks = JSON.parse(localStorage.getItem('tasks')) || []
+	tasks.forEach(task => {
+		createNewTask(task.name, task.description, task.status, task.id)
+		const taskNumber = parseInt(task.id.replace('task', ''), 10)
+		if (!isNaN(taskNumber) && taskNumber >= divid) {
+			divid = taskNumber + 1 // Увеличиваем для уникальности
+		}
+	})
+}
+
 function saveTask(event) {
 	// Предотвращаем отправку формы
 	event.preventDefault()
@@ -51,23 +83,27 @@ function hideCreateModal() {
 let taskRowIndex = 0
 let colorIndex = 1
 
-function createNewTask(name, description) {
-	// Создание элементов задачи
+// Модифицированная функция для создания задач
+function createNewTask(
+	name,
+	description,
+	status = 'var(--status-color1)',
+	id = null
+) {
 	const taskCol = document.createElement('div')
 	taskCol.classList.add('col-lg-4', 'col-md-6', 'col-xs-12')
+	taskCol.id = id || `task${divid++}`
 
 	const taskContent = document.createElement('div')
 	taskContent.classList.add('content')
 	taskContent.id = `color${colorIndex}`
-
-	// Логика для цикличного увеличения colorIndex от 1 до 4
 	colorIndex = colorIndex < 4 ? colorIndex + 1 : 1
 
 	const delBtn = document.createElement('button')
 	delBtn.classList.add('del-btn', 'text-center')
-	delBtn.textContent = '+' // Текст на кнопке
+	delBtn.textContent = '+'
 	delBtn.onclick = function () {
-		delTask(taskCol) // Удаление задачи
+		delTask(taskCol.id) // Удаление задачи
 	}
 
 	const taskText = document.createElement('div')
@@ -83,11 +119,12 @@ function createNewTask(name, description) {
 
 	const taskStatus = document.createElement('div')
 	taskStatus.classList.add('status')
+	taskStatus.style.backgroundColor = status
 	taskStatus.onclick = function () {
-		toggleStatusColor(this) // Передаем сам элемент, на который был клик
+		toggleStatusColor(this)
+		saveToLocalStorage() // Сохраняем изменения статуса
 	}
 
-	// Структура задачи
 	taskText.appendChild(taskName)
 	taskText.appendChild(taskDescription)
 	taskContent.appendChild(delBtn)
@@ -95,17 +132,20 @@ function createNewTask(name, description) {
 	taskContent.appendChild(taskStatus)
 	taskCol.appendChild(taskContent)
 
-	// Получение контейнера с задачами и кнопки "Добавить задание"
 	const todoRow = document.querySelector('.todo-row')
 	const addTaskButton = document.querySelector('.addTaskButton')
-
-	// Вставка новой задачи перед кнопкой "Добавить задание"
 	todoRow.insertBefore(taskCol, addTaskButton)
+
+	saveToLocalStorage() // Сохраняем после создания новой задачи
 }
 
-// Функция для удаления задачи
-function delTask(taskElement) {
-	taskElement.remove()
+// Модифицированная функция для удаления задачи
+function delTask(taskId) {
+	const taskElement = document.getElementById(taskId)
+	if (taskElement) {
+		taskElement.remove()
+		saveToLocalStorage() // Сохраняем изменения после удаления
+	}
 }
 
 // Функция для обновления счетчика символов
@@ -153,15 +193,15 @@ function toggleStatusColor(statusElement) {
 let darkTheme = false
 
 function toggleTheme() {
-	const themeButton = document.querySelector('.theme-btn')
 	const button = document.querySelector('.new')
-	const iconImage = button
+	const iconImage = document.querySelector('.theme-icon')
 	const root = document.documentElement
 
 	// Меняем изображение и цвета
 	if (darkTheme === false) {
 		console.log('Тема сменилась на ночную')
-		//iconImage.src = 'img/free-icon-sun-606795.png' // Путь к изображению для ночной темы
+		iconImage.src = 'img/brightness.png' // Путь к изображению для ночной темы
+		iconImage.style.filter = 'invert(1)'
 		root.style.setProperty('--color1', '#FF5A9D')
 		root.style.setProperty('--color2', '#7B61FF')
 		root.style.setProperty('--color3', '#4ABCE3')
@@ -174,7 +214,8 @@ function toggleTheme() {
 		console.log(darkTheme)
 	} else if (darkTheme === true) {
 		console.log('Тема сменилась на дневную')
-		//iconImage.src = 'img/free-icon-half-moon-8098397.png' // Путь к изображению для дневной темы
+		iconImage.src = 'img/night-mode.png' // Путь к изображению для дневной темы
+		iconImage.style.filter = 'invert(0)'
 		root.style.setProperty('--color1', '#ffc1d6')
 		root.style.setProperty('--color2', '#c2b9ff')
 		root.style.setProperty('--color3', '#a8e3f5')
@@ -186,3 +227,12 @@ function toggleTheme() {
 		console.log(darkTheme)
 	}
 }
+
+// Загружаем задачи при загрузке страницы
+window.addEventListener('load', () => {
+	loadFromLocalStorage()
+	console.log(
+		'Задачи загружены:',
+		document.querySelectorAll('.todo-row .col-lg-4')
+	)
+})

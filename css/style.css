@@ -161,7 +161,7 @@ input::placeholder {
 	opacity: 0.5;
 	transition: 0.2s;
 }
-img {
+img.add-icon {
 	height: 80%;
 	width: auto;
 	object-fit: fill;
@@ -215,4 +215,37 @@ img {
 .content:hover .del-btn {
 	opacity: 1;
 	transition: 0.25s;
+}
+.header-box {
+	background-color: var(--bg-color);
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+	filter: contrast(110%);
+	height: 50px;
+}
+
+.toggle-theme {
+	display: flex;
+	height: 35px;
+	width: 35px;
+	border: none;
+	background-color: transparent;
+	margin-top: 0.65%;
+}
+img.theme-icon {
+	display: flex;
+	height: 100%;
+	width: auto;
+	object-fit: fill;
+	filter: invert(0);
+	align-items: center;
+	justify-content: center;
+}
+.link {
+	display: flex;
+	text-decoration: none;
+	color: var(--color-text);
+	font-size: 20px;
+	font-weight: 400;
+	filter: invert(1);
+	align-items: center;
 }
