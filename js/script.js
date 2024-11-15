@@ -1,3 +1,4 @@
+let darkTheme = false
 let divid = 2 // глобальная переменная divid = 1 для последующего создания <div class="task"> с новым уникальным id
 
 // Функция для сохранения задач в localStorage
@@ -30,6 +31,15 @@ function loadFromLocalStorage() {
 			divid = taskNumber + 1 // Увеличиваем для уникальности
 		}
 	})
+	// Загружаем состояние темы
+	const savedTheme = localStorage.getItem('darkTheme') === 'true' // Преобразуем строку в boolean
+	if (savedTheme !== true) {
+		// Если тема тёмная, применяем её
+		darkTheme = true
+	} else {
+		darkTheme = false
+	}
+	toggleTheme() // Вызываем toggleTheme для применения тёмной темы
 }
 
 function saveTask(event) {
@@ -97,7 +107,7 @@ function createNewTask(
 	const taskContent = document.createElement('div')
 	taskContent.classList.add('content')
 	taskContent.id = `color${colorIndex}`
-	colorIndex = colorIndex < 4 ? colorIndex + 1 : 1
+	colorIndex = colorIndex < 6 ? colorIndex + 1 : 1
 
 	const delBtn = document.createElement('button')
 	delBtn.classList.add('del-btn', 'text-center')
@@ -190,8 +200,6 @@ function toggleStatusColor(statusElement) {
 	}
 }
 
-let darkTheme = false
-
 function toggleTheme() {
 	const button = document.querySelector('.new')
 	const iconImage = document.querySelector('.theme-icon')
@@ -206,8 +214,11 @@ function toggleTheme() {
 		root.style.setProperty('--color2', '#7B61FF')
 		root.style.setProperty('--color3', '#4ABCE3')
 		root.style.setProperty('--color4', '#FF8A63')
+		root.style.setProperty('--color5', '#56C56F')
+		root.style.setProperty('--color6', '#FFDF6E')
 		root.style.setProperty('--color-text', 'black')
 		root.style.setProperty('--bg-color', '#242124')
+		root.style.setProperty('--color', 'white')
 		button.style.filter = 'invert(1)'
 		darkTheme = true
 
@@ -220,12 +231,17 @@ function toggleTheme() {
 		root.style.setProperty('--color2', '#c2b9ff')
 		root.style.setProperty('--color3', '#a8e3f5')
 		root.style.setProperty('--color4', '#ffd4bf')
+		root.style.setProperty('--color5', '#b6f0b6')
+		root.style.setProperty('--color6', '#fff2b2')
 		root.style.setProperty('--color-text', 'white')
 		root.style.setProperty('--bg-color', '#f8f8ff')
+		root.style.setProperty('--color', 'black')
 		button.style.filter = 'invert(0)'
 		darkTheme = false
 		console.log(darkTheme)
 	}
+
+	localStorage.setItem('darkTheme', darkTheme)
 }
 
 // Загружаем задачи при загрузке страницы
